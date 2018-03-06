@@ -1,31 +1,31 @@
 <template>
-     <el-aside class="aside" width="auto"  ref="aside">
-        <div class="aside-header">
-          <div class="logo"><b>园林帮</b></div>
-          <i @click="toggleCollapse()" class="fa fa-bars fa-2x bar"></i>
-        </div>
-        <nav-menu :isCollapse="isCollapse" />
-      </el-aside>
+  <el-aside class="aside" width="auto"  ref="aside">
+    <div class="aside-header">
+      <div class="logo"><b>园林帮</b></div>
+      <i @click="toggleCollapse()" class="fa fa-bars fa-2x bar"></i>
+    </div>
+    <nav-menu :isCollapse="isCollapse" />
+  </el-aside>
 </template>
 
 <script>
-import navMenu from './../nav-menu';
+  import navMenu from './../nav-menu';
 
-export default {
-  name: 'Aside',
-  components: { navMenu },
-  data: function() {
-    return {
-      containerHeight: 0,
-      isCollapse: false
-    };
-  },
-  methods: {
-    toggleCollapse() {
-      this.isCollapse = !this.isCollapse;
+  export default {
+    name: 'Aside',
+    components: { navMenu },
+    data: function() {
+      return {
+        containerHeight: 0,
+        isCollapse: false
+      };
+    },
+    methods: {
+      toggleCollapse() {
+        this.isCollapse = !this.isCollapse;
+      }
     }
-  }
-};
+  };
 </script>
 
 <style>
@@ -39,9 +39,14 @@ export default {
   }
   .bar{
     position: absolute;
+    top: 0px;
+    cursor: pointer;
+    padding: 18px;
     left: 100%;
-    top: 19px;
     z-index: 200;
+  }
+  .bar:hover{
+    background: rgba(0,0,0,0.1);
   }
   .logo{
     display: inline-block;
