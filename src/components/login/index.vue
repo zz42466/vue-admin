@@ -3,15 +3,16 @@
     <div class="login">
         <div class="login-title"><h3>管理系统登录</h3></div>
         <div class="login-form">
-          <el-form :model="ruleForm" label-width="100px" :rules="rules">
+          <el-form :model="loginForm" label-width="100px" ref="loginForm" :rules="rules">
             <el-form-item label="账号：" prop="userName">
-              <el-input type="text" v-model="ruleForm.userName"></el-input>
+              <el-input type="text" v-model="loginForm.userName"></el-input>
             </el-form-item>
             <el-form-item label="密码：" prop="password">
-              <el-input type="password" v-model="ruleForm.password"></el-input>
+              <el-input type="password" v-model="loginForm.password"></el-input>
             </el-form-item>
             <el-form-item>
-              <el-button type="primary">登录</el-button>
+              <el-checkbox label="记住密码" name="remberMe"></el-checkbox>
+              <el-button @click="submitLogin" class="submit" type="primary" size="mini">登录</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -20,18 +21,20 @@
 </template>
 
 <script>
+  import loginApi from '@/api/login';
+  import router from '@/router';
+
   export default {
     name: 'Login',
     data() {
       return {
-        ruleForm: {
+        loginForm: {
           userName: '',
           password: ''
         },
         rules: {
           userName: [
-            { required: true, message: '请输入用户名', trigger: 'blur' },
-            { min: 3, max: 10, message: '用户名长度在3到10个字符', trigger: 'blur' }
+            { required: true, message: '请输入用户名', trigger: 'blur' }
           ],
           password: [
             { required: true, message: '请输入密码', trigger: 'blur' },
@@ -39,6 +42,25 @@
           ]
         }
       };
+    },
+    methods: {
+      submitLogin() {
+        this.$refs.loginForm.validate((valid) => {
+          if (valid) {
+            loginApi(this.loginForm.userName, this.loginForm.password)
+            .then(function(data) {
+              console.log(data.data);
+              if (data.data.status === 1) {
+                console.log(self.$route);
+                router.push('MainPage');
+              }
+            });
+          } else {
+            console.log('error submit!!');
+            return false;
+          }
+        });
+      }
     }
   };
 </script>
@@ -61,5 +83,8 @@
   .login-title{
     text-align: center;
     margin-bottom: 25px;
+  }
+  .submit{
+    float: right;
   }
 </style>
