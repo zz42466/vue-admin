@@ -1,7 +1,7 @@
 <template>
   <el-container>
     <Aside />
-    <el-container ref='content' :style="contentStyle">
+    <el-container ref='content' style="min-height: 100vh;">
         <zz-header />
         <el-main class="main" >
           <router-view/>
@@ -12,12 +12,9 @@
 </template>
 
 <script>
-  import { getEleHeight, addEventListener, removeEventListener } from 'util/element';
-  import { getWindowHeight } from 'util/screen';
   import Aside from './aside';
   import ZzHeader from './header';
 
-  let initContinetHeight = 0;
   export default {
     name: 'MainPage',
     components: { Aside, ZzHeader },
@@ -27,29 +24,10 @@
         isCollapse: false
       };
     },
-    mounted() {
-      initContinetHeight = getEleHeight(this.$refs.content.$el);
-      addEventListener(window, 'resize', this.setContainerHeight);
-      this.setContainerHeight();
-    },
     destroyed() {
       removeEventListener(window, 'resize', this.setContainerHeight);
     },
-    computed: {
-      contentStyle: function () {
-        let height = this.containerHeight; //在计算属性中，需要在第一次执行的时候调用到所所依赖的属性，如果第一次调用不到，在不会更新
-        let style = {};
-        if (initContinetHeight !== 0) {
-          style.minHeight = height + 'px';
-        }
-        return style;
-      }
-    },
     methods: {
-      setContainerHeight: function() {
-        let windowHeight = getWindowHeight();
-        this.containerHeight = initContinetHeight < windowHeight ? windowHeight : initContinetHeight;
-      },
       toggleCollapse() {
         this.isCollapse = !this.isCollapse;
       }

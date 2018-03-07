@@ -12,7 +12,7 @@
             </el-form-item>
             <el-form-item>
               <el-checkbox label="记住密码" name="remberMe"></el-checkbox>
-              <el-button @click="submitLogin" class="submit" type="primary" size="mini">登录</el-button>
+              <el-button @click="submitLogin" :loading="isLogining" class="submit" type="primary" size="mini">登录</el-button>
             </el-form-item>
           </el-form>
         </div>
@@ -40,20 +40,38 @@
             { required: true, message: '请输入密码', trigger: 'blur' },
             { min: 6, max: 20, message: '密码长度在6到20个字符', trigger: 'blur' }
           ]
-        }
+        },
+        isLogining: false
       };
     },
     methods: {
       submitLogin() {
         this.$refs.loginForm.validate((valid) => {
           if (valid) {
+            this.isLogining = true;
             loginApi(this.loginForm.userName, this.loginForm.password)
-            .then(function(data) {
+            .then((data) => {
               console.log(data.data);
+              this.isLogining = false;
               if (data.data.status === 1) {
-                console.log(self.$route);
                 router.push('MainPage');
+              } else {
+                 this.$alert('账号或密码错误', '提示', {
+                  confirmButtonText: '确定',
+                  callback: action => {
+                    console.log(`action:${action}`);
+                  }
+                });
               }
+            })
+            .catch(() => {
+              this.isLogining = false;
+              this.$alert('网络错误', '提示', {
+                  confirmButtonText: '确定',
+                  callback: action => {
+                    console.log(`action:${action}`);
+                  }
+                });
             });
           } else {
             console.log('error submit!!');
