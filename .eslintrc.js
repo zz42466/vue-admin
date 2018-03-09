@@ -28,6 +28,7 @@ module.exports = {
     "semi": [2, "always"],//语句强制分号结尾
     "spaced-comment": 0,//注释风格要不要有空格什么的
     "space-before-function-paren": [0, "always"], ////函数定义时括号前面要不要有空格
-    "eol-last": 0
+    "eol-last": 0,
+    "indent": [0, 2]
   }
 }

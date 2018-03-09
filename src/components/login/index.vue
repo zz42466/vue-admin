@@ -92,7 +92,7 @@
   }
   .login{
     width: 500px;
-    margin: 200px auto;
+    margin: 100px auto auto;
     padding: 20px;
     border: solid 1px #459cc4;
     box-shadow: 1px 1px 8px #459cc4;
